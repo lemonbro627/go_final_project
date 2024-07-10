@@ -39,7 +39,7 @@ docker run -p 7540:7540 -e TODO_PASSWORD=1234567 golang-go_final_project:v1.0.0
 
 ## Запуск тестов
 
-# Starting tests requires running application.
+### Для запуска тестов необходимо запущенное приложение
 Необходимо получить JWT токен из API авторизации по пути:
 ``` bash
 http://appurl:7540/api/signin
