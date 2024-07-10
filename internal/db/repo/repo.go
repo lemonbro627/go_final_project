@@ -35,9 +35,9 @@ type SearchQueryData interface {
 func QueryDataFromString(search string) SearchQueryData {
 	searchDate, err := time.Parse("02.01.2006", search)
 	if err != nil {
-		return &TextSearchParam{Text: search}
+		return &TextSearchParams{Text: search}
 	} else {
-		return &DateSearchParam{Date: searchDate}
+		return &DateSearchParams{Date: searchDate}
 	}
 }
 
