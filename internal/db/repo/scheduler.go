@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/lemonbro672/go_final_project/internal/dateutil"
+	"github.com/lemonbro627/go_final_project/internal/dateutil"
 	"github.com/lemonbro627/go_final_project/internal/models"
 )
 
