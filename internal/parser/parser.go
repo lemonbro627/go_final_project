@@ -87,7 +87,7 @@ func ParseWRepeat(rule []string) (*WRepeat, error) {
 	for i := 0; i < len(x); i++ {
 		num, err := strconv.Atoi(x[i])
 		if err != nil || num > 7 || num < 1 {
-			return nil, fmt.Errorf("Can not parse days for repeat value.")
+			return nil, fmt.Errorf("can't parse days for repeat value")
 		}
 		weekDays = append(weekDays, num)
 	}
@@ -144,7 +144,7 @@ func ParseMRepeat(rule []string, now time.Time, date time.Time) (*MRepeat, error
 	// то проверяется, чтобы в следующем месяце был 31 день и рассматриваем уже его (следующий месяц)
 
 	if len(rule) == 1 || len(rule) > 3 {
-		return nil, fmt.Errorf("Error in m rule.")
+		return nil, fmt.Errorf("error in m rule")
 	}
 
 	// определяем, есть ли месяцы в правиле
@@ -168,7 +168,7 @@ func ParseMRepeat(rule []string, now time.Time, date time.Time) (*MRepeat, error
 	for _, day := range daysInRule {
 		num, err := strconv.Atoi(day)
 		if err != nil {
-			return nil, fmt.Errorf("Error in checking days in repeat rule 'm', got '%s'", day)
+			return nil, fmt.Errorf("error in checking days in repeat rule 'm', got '%s'", day)
 		}
 		if num >= 1 && num <= 31 {
 			days = append(days, num)
@@ -185,7 +185,7 @@ func ParseMRepeat(rule []string, now time.Time, date time.Time) (*MRepeat, error
 			t := Date(startdate.Year(), int(startdate.Month()+1), 0)
 			days = append(days, int(t.Day())-1)
 		} else {
-			return nil, fmt.Errorf("Error in checking days in repeat rule 'm', got '%s'", day)
+			return nil, fmt.Errorf("error in checking days in repeat rule 'm', got '%s'", day)
 		}
 
 	}
@@ -198,7 +198,7 @@ func ParseMRepeat(rule []string, now time.Time, date time.Time) (*MRepeat, error
 		for _, month := range monthsInRule {
 			num, err := strconv.Atoi(month)
 			if err != nil || num < 1 || num > 12 {
-				return nil, fmt.Errorf("Error in checking days in repeat rule 'm', got '%s'", month)
+				return nil, fmt.Errorf("error in checking days in repeat rule 'm', got '%s'", month)
 			}
 			months = append(months, num)
 		}
@@ -247,13 +247,12 @@ func (mr *MRepeat) GetNextDate(now time.Time, date time.Time) (time.Time, error)
 		return nextDay, nil
 	}
 
-	return time.Time{}, fmt.Errorf("Error in checking days and months in 'm' repeat rule")
+	return time.Time{}, fmt.Errorf("error in checking days and months in 'm' repeat rule")
 }
 
 type RepeatRule interface {
 	GetNextDate(now time.Time, date time.Time) (time.Time, error)
 }
-
 
 func Date(year, month, day int) time.Time {
 	return time.Date(year, time.Month(month), day, 0, 0, 0, 0, time.UTC)
@@ -308,7 +307,7 @@ func ruleMwithMonth(startdate time.Time, mDays []int, mMonths []int) time.Time {
 
 func ParseRepeat(now time.Time, date time.Time, repeat string) (RepeatRule, error) {
 	if repeat == "" {
-		return nil, fmt.Errorf("Expected repeat, got an empty string.")
+		return nil, fmt.Errorf("expected repeat, got an empty string")
 	}
 
 	rule := strings.Split(repeat, " ")
@@ -339,7 +338,7 @@ func ParseRepeat(now time.Time, date time.Time, repeat string) (RepeatRule, erro
 			return nil, err
 		}
 	default:
-		return nil, fmt.Errorf("Unkown repeat id %s", rule[0])
+		return nil, fmt.Errorf("unkown repeat id %s", rule[0])
 	}
 
 	return parsedRepeat, nil

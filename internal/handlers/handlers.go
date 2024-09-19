@@ -77,7 +77,7 @@ func GetNextDay(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	dtParsed, err := time.Parse("20060102", date)
+	dtParsed, err := time.Parse(dateutil.DateFormat, date)
 	if err != nil {
 		log.Println("error:", err)
 		RenderApiErrorAndResponse(w, fmt.Errorf(InvalidDateError), http.StatusBadRequest)
@@ -91,7 +91,7 @@ func GetNextDay(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	dtNow, err := time.Parse("20060102", now)
+	dtNow, err := time.Parse(dateutil.DateFormat, now)
 	if err != nil {
 		err := fmt.Errorf("wrong date: %v", err)
 		log.Println("error:", err)

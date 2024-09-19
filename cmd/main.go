@@ -4,8 +4,6 @@ import (
 	"database/sql"
 	"log"
 	"net/http"
-	"os"
-	"path/filepath"
 
 	"github.com/go-chi/chi/v5"
 	_ "modernc.org/sqlite"
@@ -16,35 +14,22 @@ import (
 	"github.com/lemonbro627/go_final_project/internal/handlers"
 )
 
-var webDir = "./web/"
+const (
+	webDir = "./web/"
+)
 
 func main() {
 	// создаем config, куда записываем пароль из переменной окружения и секретное слово
-	config, err := config.NewConfig(
-		os.Getenv("TODO_PASSWORD"),
-		"superpupersecret",
-		os.Getenv("TODO_PORT"),
-	)
+	config, err := config.NewConfig()
 	if err != nil {
 		log.Fatalf("Config error")
 	}
-	// Получаем директорию с бинарем
-	appPath, err := os.Executable()
-	if err != nil {
-		log.Fatal(err)
-	}
-	//Задаем путь до БД
-	dbPath := filepath.Join(filepath.Dir(appPath), "scheduler.db")
 
 	// Получаем переменную окружения TODO_DBFILE
-	pathDb := os.Getenv("TODO_DBFILE")
-	if pathDb != "" {
-		dbPath = pathDb
-	}
 	//Проверяем есть ли база данных, если нет - создаем
-	db.CreateDatabase(dbPath)
+	db.CreateDatabase(config.DbPath)
 
-	db, err := sql.Open("sqlite", dbPath)
+	db, err := sql.Open("sqlite", config.DbPath)
 	if err != nil {
 		log.Println(err)
 		return

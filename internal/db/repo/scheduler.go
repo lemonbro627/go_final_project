@@ -2,7 +2,7 @@ package repo
 
 import (
 	"database/sql"
-	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -11,8 +11,7 @@ import (
 )
 
 const (
-	limitConst   = 20
-	timeTemplate = "20060102"
+	limit = 20
 )
 
 // чтобы оперировать Tasks (TaskCreationRequest), нужна всегда ссылка на БД
@@ -51,21 +50,20 @@ func (tr TasksRepository) PostTaskDone(id int) (*models.Task, error) {
 		return nil, err
 	}
 
-	dt, err := time.Parse(timeTemplate, t.Date)
+	dt, err := time.Parse(dateutil.DateFormat, t.Date)
 	if err != nil {
 		return nil, err
 	}
 
 	if t.Repeat == "" {
-		fmt.Println("Repeat is null")
+		log.Println("Repeat is null")
 		err = tr.DeleteTask(id)
 		if err != nil {
 			return nil, err
 		}
 		return nil, nil
 	}
-	
-	fmt.Println("Repeat is not null")
+
 	now := time.Now()
 	nextDate, err := dateutil.NextDate(now, dt, t.Repeat)
 	if err != nil {
@@ -113,12 +111,12 @@ func (tr TasksRepository) GetTask(id int) (models.Task, error) {
 
 // Из таблицы должны вернуться сроки с ближайшими датами.
 func (tr TasksRepository) GetAllTasks() ([]models.Task, error) {
-	today := time.Now().Format(timeTemplate)
+	today := time.Now().Format(dateutil.DateFormat)
 
 	rows, err := tr.db.Query("SELECT id, date, title, comment, repeat FROM scheduler WHERE date >= :today "+
 		"ORDER BY date LIMIT :limit",
 		sql.Named("today", today),
-		sql.Named("limit", limitConst))
+		sql.Named("limit", limit))
 
 	if err != nil {
 		return nil, err
@@ -158,7 +156,7 @@ func (tr TasksRepository) SearchTasks(searchData SearchQueryData) ([]models.Task
 
 	rows, err := tr.db.Query(querySql,
 		sql.Named("search", queryData.Param),
-		sql.Named("limit", limitConst))
+		sql.Named("limit", limit))
 
 	if err != nil {
 		return nil, err

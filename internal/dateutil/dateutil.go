@@ -6,6 +6,10 @@ import (
 	"github.com/lemonbro627/go_final_project/internal/parser"
 )
 
+const (
+	DateFormat = "20060102"
+)
+
 // NextDate calculates the next task date using the specified repeat rule and dates (now and date)
 // NextDate разбирает правило повтора и применяет его к переданным датам и возвращает следующую дату в формате строки
 // date и now должны передаваться уже разобранными и проверенными;
@@ -27,5 +31,5 @@ func NextDate(now time.Time, date time.Time, repeat string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return d.Format("20060102"), nil
+	return d.Format(DateFormat), nil
 }

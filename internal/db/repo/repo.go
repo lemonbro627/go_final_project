@@ -3,6 +3,8 @@ package repo
 import (
 	"fmt"
 	"time"
+
+	"github.com/lemonbro627/go_final_project/internal/dateutil"
 )
 
 // структуры, методы и интерфейсы для абстрагирования параметров поиска
@@ -10,9 +12,14 @@ type DateSearchParams struct {
 	Date time.Time
 }
 
+type QueryData struct {
+	Param     string
+	Condition string
+}
+
 func (dp *DateSearchParams) GetQueryData() *QueryData {
 	return &QueryData{
-		Param:     dp.Date.Format(timeTemplate),
+		Param:     dp.Date.Format(dateutil.DateFormat),
 		Condition: "WHERE date LIKE :search",
 	}
 }
@@ -39,9 +46,4 @@ func QueryDataFromString(search string) SearchQueryData {
 	} else {
 		return &DateSearchParams{Date: searchDate}
 	}
-}
-
-type QueryData struct {
-	Param     string
-	Condition string
 }

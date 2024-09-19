@@ -42,9 +42,20 @@ docker run -p 7540:7540 -e TODO_PASSWORD=1234567890 golang-go_final_project:v1.0
 ### Для запуска тестов необходимо запущенное приложение
 Необходимо получить JWT токен из API авторизации по пути:
 ``` bash
-http://appurl:7540/api/signin
+http://localhost:7540/api/signin
 ```
 Необходимо отправить POST запрос, в котором в body будет передан JSON с содержанием пароля
+Пример
+```bash
+curl -XPOST http://localhost:7540/api/signin -d '{"password": "12345678"}'
+```
+В ответ вернётся JSON с Token
+Пример полного выполнения
+```bash
+lemon@T480s [09:19:20 PM] [~]
+-> % curl -XPOST htppL//192.168.0.14:7540/api/signin -d '{"password": "12345678"}'
+{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXNzd29yZCI6ImRmMzNkM2Y4NjA4NmY3MTFlYTU2MzQ1MzFlMDdkMDZmN2VmNDE3OTJmNzUzNzQyYzIxODJhOTYxMTc1NmY3NTgifQ.K3qYl4GPmnd7Hd-w6hR64oEvGMOONjcb_fv6skleEEY"}
+```
 
 Далее после получения JWT токена его необходимо задать в переменную token по пути tests/settings.go
 

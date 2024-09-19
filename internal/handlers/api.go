@@ -39,7 +39,6 @@ func (a *Api) GetTaskHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *Api) PostTaskHandler(w http.ResponseWriter, r *http.Request) {
-	log.Println("We are in MethodPost")
 	a.CreateTask(w, r)
 }
 
@@ -144,7 +143,6 @@ func (a *Api) CreateTask(w http.ResponseWriter, r *http.Request) {
 		RenderApiErrorAndResponse(w, fmt.Errorf(ReadingError), http.StatusBadRequest) // 400
 		return
 	}
-	log.Println("received:", buf.String())
 
 	parseBody := models.Task{}
 	err = json.Unmarshal(buf.Bytes(), &parseBody)
@@ -233,7 +231,6 @@ func (a *Api) UpdateTask(w http.ResponseWriter, r *http.Request) {
 
 // DeleteTask удаяет задание из БД
 func (a *Api) DeleteTask(w http.ResponseWriter, r *http.Request) {
-	log.Println("We are in DeleteTask")
 	idToSearch := r.URL.Query().Get("id")
 
 	id, err := strconv.Atoi(idToSearch)
@@ -254,7 +251,6 @@ func (a *Api) DeleteTask(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *Api) TaskDoneHandler(w http.ResponseWriter, r *http.Request) {
-	log.Println("We are in TaskDoneHandler")
 	idToSearch := r.URL.Query().Get("id")
 
 	id, err := strconv.Atoi(idToSearch)
@@ -281,7 +277,6 @@ func (a *Api) TaskDoneHandler(w http.ResponseWriter, r *http.Request) {
 
 func (a *Api) GetTask(w http.ResponseWriter, r *http.Request, id int) {
 	foundTask, err := a.repo.GetTask(id)
-	log.Println("we are in GetTask", "foundTask:", foundTask)
 	if err != nil {
 		log.Println("error:", err)
 		RenderApiErrorAndResponse(w, fmt.Errorf(InternalServerError), http.StatusInternalServerError) // 500
@@ -346,7 +341,7 @@ func (a *Api) SigninHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	WriteResponse(w, respBody)
-	w.WriteHeader(http.StatusOK)
+	//w.WriteHeader(http.StatusOK)
 }
 
 // добавим проверку аутентификации для API-запросов

@@ -17,7 +17,6 @@ func addTask(t *testing.T, task task) string {
 		"comment": task.comment,
 		"repeat":  task.repeat,
 	}, http.MethodPost)
-	fmt.Println("---- ret:", ret, "err:", err)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, ret["id"])

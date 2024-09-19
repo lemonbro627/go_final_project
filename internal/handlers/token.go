@@ -29,8 +29,8 @@ func createToken(userPassedPassword string, encKey string) (string, error) {
 		log.Printf("failed to sign jwt: %s\n", err)
 		return "", err
 	}
-	
-	fmt.Println("Result token: " + string(signedToken[:]))
+
+	//fmt.Println("Result token: " + string(signedToken[:]))
 
 	return signedToken, nil
 }
