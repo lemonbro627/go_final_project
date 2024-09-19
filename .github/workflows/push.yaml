@@ -1,0 +1,24 @@
+name: go-build
+
+on: push 
+  
+jobs:
+
+    lint:
+      runs-on: ubuntu-latest
+      container: golang:1.22.2
+      steps:
+        - uses: actions/checkout@v3
+
+        - name: Run Linter
+          run: go vet ./...
+  
+    build:
+      needs: lint
+      runs-on: ubuntu-latest
+      container: golang:1.22.2
+      steps:
+      - uses: actions/checkout@v3
+  
+      - name: Build
+        run: go build -v ./cmd/main.go
